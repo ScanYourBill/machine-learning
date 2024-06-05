@@ -1,9 +1,37 @@
+"""
+Generate sales receipts images from a CSV file.
+
+This script reads sales data from a CSV file, groups the data by receipt ID,
+and generates an image for each receipt. Each receipt includes header information,
+item details, and a total price.
+
+Parameters:
+- csv_filename: The filename of the CSV file containing sales data.
+
+Returns:
+- Image files representing the generated receipts.
+"""
+
 import pandas as pd
 from PIL import Image, ImageDraw, ImageFont
 
 
 # Function to draw text with word wrap
 def draw_text(draw, text, position, font, max_width):
+    """
+    Draw text with word wrap.
+
+    Parameters:
+    - draw: The ImageDraw object.
+    - text: The text to draw.
+    - position: The position to start drawing text.
+    - font: The font to use for drawing text.
+    - max_width: The maximum width for each line.
+
+    Returns:
+    - The y-coordinate after drawing the text.
+    """
+    
     lines = []
     if draw.textsize(text, font=font)[0] <= max_width:
         lines.append(text)
