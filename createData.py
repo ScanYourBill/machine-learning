@@ -1,3 +1,18 @@
+"""
+Generate random receipts and save them to a CSV file.
+
+This script generates random sales receipts containing random items and quantities,
+calculates the total price for each receipt, and saves the receipts to a CSV file.
+
+Parameters:
+- list_items: A list of dictionaries containing items and their prices.
+- num_receipts: The number of receipts to generate.
+
+Returns:
+- receipts: A list of dictionaries representing the generated receipts.
+- filename: The filename of the CSV file where the receipts are saved.
+"""
+
 import random
 import csv
 
@@ -62,6 +77,17 @@ daftar_barang_dan_harga = [
 ]
 
 def generate_random_receipts(list_items, num_receipts):
+    """
+    Generate random sales receipts.
+
+    Parameters:
+    - list_items: A list of dictionaries containing items and their prices.
+    - num_receipts: The number of receipts to generate.
+
+    Returns:
+    - receipts: A list of dictionaries representing the generated receipts.
+    """
+    
     receipts = []
 
     for receipt_id in range(91, num_receipts + 91):
@@ -84,6 +110,14 @@ def generate_random_receipts(list_items, num_receipts):
 
 
 def save_receipts_to_csv(receipts, filename):
+    """
+    Save the generated receipts to a CSV file.
+
+    Parameters:
+    - receipts: A list of dictionaries representing the generated receipts.
+    - filename: The filename of the CSV file to save the receipts.
+    """
+    
     with open(filename, 'w', newline='') as csvfile:
         fieldnames = ['Receipt ID', 'Item', 'Quantity', 'Price', 'Item Total']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
