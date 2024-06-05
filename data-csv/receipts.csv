@@ -1,0 +1,31 @@
+Receipt ID,Item,Quantity,Price,Item Total
+1,Voucher Steam,9,10000,90000
+1,TOTAL,,,90000
+,,,,
+2,Teh,3,10000,30000
+2,TOTAL,,,30000
+,,,,
+3,Sprite,6,10000,60000
+3,TOTAL,,,60000
+,,,,
+4,Taro,4,15000,60000
+4,TOTAL,,,60000
+,,,,
+5,Voucher Goggle Play,6,50000,300000
+5,TOTAL,,,300000
+,,,,
+6,Daging Sapi Segar,3,75000,225000
+6,TOTAL,,,225000
+,,,,
+7,Teh,9,10000,90000
+7,TOTAL,,,90000
+,,,,
+8,Ember,10,30000,300000
+8,TOTAL,,,300000
+,,,,
+9,Earphone,8,50000,400000
+9,TOTAL,,,400000
+,,,,
+10,Susu,8,15000,120000
+10,TOTAL,,,120000
+,,,,
