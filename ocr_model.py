@@ -1,12 +1,41 @@
 import cv2
 import json
 import pytesseract
+import pickle
+import numpy as np
+from keras.models import load_model
+from keras.preprocessing.sequence import pad_sequences
 
 
+# Custom config
 myconfig = r"--psm 6 oem 3"
 
+# Load the model
+loaded_model = load_model('nlp_model\model_ave.h5')
+
+# Load the tokenizer
+with open('nlp_model\tokenizer_ave.pickle', 'rb') as handle:
+    loaded_tokenizer = pickle.load(handle)
+
+# Define the unique labels
+unique_labels = ['Clothing', 'Food', 'Stationery', 'Others', 'Toiletries', 'Medical and Health Care', 'Entertainment']
+
+# Load image
 img = cv2.imread("data/receipt_47.jpg")
 base_image = img.copy()
+
+def predict_text(text):
+    # Tokenize text
+    sequence = loaded_tokenizer.texts_to_sequences([text])
+    # Pad the sequence
+    data = pad_sequences(sequence, maxlen=100)
+
+    # Perform prediction
+    prediction = loaded_model.predict(data)
+    predicted_label = unique_labels[np.argmax(prediction)]
+
+    return predicted_label
+
 
 blur = cv2.GaussianBlur(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY), (7,7), 0)
 thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
@@ -24,7 +53,7 @@ for c in cnts:
         cv2.rectangle(img, (x, y), (x+w, y+h), (36, 255, 12), 2)
 
 ocr_result = pytesseract.image_to_string(roi, config=myconfig)
-cv2.imwrite("temp/bbox.png", img) # check bounding box
+# cv2.imwrite("bbox.png", img) # check bounding box
 # print(ocr_result) # check the ocr result
 
 # Split the text into lines
@@ -43,16 +72,17 @@ for line in lines:
             totals = int(parts[1].replace(',', ''))
         else:
             name = ' '.join(parts[:-3])
+            category = predict_text(name)
             quantity = int(parts[-3])
             price = int(parts[-2].replace(',', ''))
             total = int(parts[-1].replace(',', ''))
-            items.append({"name": name, "quantity": quantity, "price": price, "total": total})
+            items.append({"name": name, "category": category, "quantity": quantity, "price": price, "total": total})
 
 # Prepare the data
 data = {"items": items, "totals": totals}
 
 # Write the data to a JSON file
-with open('temp/data.json', 'w') as f:
+with open('result.json', 'w') as f:
     json.dump(data, f)
 
-print("Data has been written to temp/data.json")
+print("Data has been written to result.json")
