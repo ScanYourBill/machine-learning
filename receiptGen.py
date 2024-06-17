@@ -124,12 +124,12 @@ def generate_random_receipts(list_items, num_receipts, font_path, logo_path):
     print("Receipt images generated.")
 
 # Load data from a CSV file into a DataFrame and convert it to a list of dictionaries
-receipts_df = pd.read_csv('data/data.csv')
+receipts_df = pd.read_csv('data_csv/data.csv')
 list_of_dicts = receipts_df.to_dict('records')
 
 # Parameters for receipt generation
 font_path = "arial.ttf"  # Path to the font file
-logo_path = "data/indomaret_logo.png"  # Path to the logo image file
+logo_path = "indomaret_logo.png"  # Path to the logo image file
 num_receipts = 10  # Number of receipts to generate
 
 # Generate random receipts images
